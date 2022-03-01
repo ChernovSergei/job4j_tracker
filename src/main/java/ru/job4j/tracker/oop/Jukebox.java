@@ -16,5 +16,7 @@ public class Jukebox {
         crosley.music(2);
         Jukebox seeburg = new Jukebox();
         crosley.music(0);
+        Jukebox cccp = new Jukebox();
+        cccp.music(1);
     }
 }
