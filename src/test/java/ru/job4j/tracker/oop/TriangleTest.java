@@ -11,7 +11,7 @@ public class TriangleTest {
     public void when00and40and04Then8() {
         Point first = new Point(0, 0);
         Point second = new Point(4, 0);
-        Point third = new Point (0 , 4);
+        Point third = new Point(0, 4);
         Triangle triangle = new Triangle(first, second, third);
         double rsl = triangle.area();
         assertThat(rsl, closeTo(8, 0.001));
