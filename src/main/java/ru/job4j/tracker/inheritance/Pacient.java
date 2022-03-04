@@ -5,10 +5,6 @@ public class Pacient {
     private String surname;
     private long birthday;
 
-    public Pacient() {
-
-    }
-
     public Pacient(String name, String surname, long birthday) {
         this.name = name;
         this.surname = surname;

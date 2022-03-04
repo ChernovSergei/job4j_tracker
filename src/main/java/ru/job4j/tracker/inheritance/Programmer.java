@@ -3,9 +3,6 @@ package ru.job4j.tracker.inheritance;
 public class Programmer extends Engineer {
     private String primaryLanguage;
 
-    public Programmer() {
-    }
-
     public Programmer(String name, String surname, String education, long birthday, String quality,
                       String primaryLanguage) {
         super(name, surname, education, birthday, quality);
