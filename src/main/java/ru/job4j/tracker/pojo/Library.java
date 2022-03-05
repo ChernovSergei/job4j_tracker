@@ -13,7 +13,16 @@ public class Library {
                 System.out.println("Book name: " + books[i].getName() + "\t, number of pages: " + books[i].getSheets());
             }
         }
-        System.out.println("\n");
+        System.out.println();
+    }
+
+    public static void print(Book[] books, String bookName) {
+        for (int i = 0; i < books.length; i++) {
+            if (books[i] != null && books[i].getName().equals(bookName)) {
+                System.out.println("Book name: " + books[i].getName() + "\t, number of pages: " + books[i].getSheets());
+            }
+        }
+        System.out.println();
     }
 
     public static void main(String[] args) {
@@ -29,5 +38,6 @@ public class Library {
         print(books);
         changeBooks(books, 0, 3);
         print(books);
+        print(books, "Clean Code");
     }
 }
