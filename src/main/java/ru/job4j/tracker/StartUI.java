@@ -47,6 +47,16 @@ public class StartUI {
                 } else {
                     System.out.println("Error. There is no request with such id.");
                 }
+            } else if (select == 4) {
+                System.out.println("== Find request by id ==");
+                System.out.println("Enter request id to get its information: ");
+                int input = Integer.parseInt(scanner.nextLine());
+                Item item = tracker.findById(input);
+                if (item != null) {
+                    System.out.println(item);
+                } else {
+                    System.out.println("Error. There is no request with such id.");
+                }
             } else if (select == 6) {
                 run = false;
             }
