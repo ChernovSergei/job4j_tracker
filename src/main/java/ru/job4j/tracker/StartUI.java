@@ -26,6 +26,19 @@ public class StartUI {
                 } else {
                     System.out.println("Error. The archive doesn't have any requests");
                 }
+            } else if (select == 2) {
+                System.out.println("== Replace Item ==");
+                System.out.println("Enter id to replace request: ");
+                int id = Integer.parseInt(scanner.nextLine());
+                System.out.println("Enter new request: ");
+                String name = scanner.nextLine();
+                Item newItem = new Item(name);
+                if (tracker.replace(id, newItem)) {
+                    System.out.println("The request had been updated successfully");
+                } else {
+                    System.out.println("Error. There is no such id in the archive");
+                }
+
             } else if (select == 6) {
                 run = false;
             }
@@ -33,7 +46,7 @@ public class StartUI {
     }
 
     private static void showMenu() {
-        String[] menu = {"Add new item", "Show all items", "Edit item", "Delete item", "Find item by id", "Find items by name", "Exit program"};
+        String[] menu = {"Add new item", "Show all items", "Replace item", "Delete item", "Find item by id", "Find items by name", "Exit program"};
         System.out.println("Menu:");
         for (int i = 0; i < menu.length; i++) {
             System.out.println(i + ". " + menu[i]);
