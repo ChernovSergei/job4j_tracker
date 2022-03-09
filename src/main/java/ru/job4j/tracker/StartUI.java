@@ -16,11 +16,20 @@ public class StartUI {
                 Item item = new Item(name);
                 tracker.add(item);
                 System.out.println("The request had been added - " + item);
+            } else if (select == 1) {
+                System.out.println("== Show all items ==");
+                Item[] items = tracker.findAll();
+                if (items.length > 0) {
+                    for (Item item : items) {
+                        System.out.println(item);
+                    }
+                } else {
+                    System.out.println("Error. The archive doesn't have any requests");
+                }
             } else if (select == 6) {
                 run = false;
             }
         }
-
     }
 
     private static void showMenu() {
