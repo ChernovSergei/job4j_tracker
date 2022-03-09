@@ -38,7 +38,15 @@ public class StartUI {
                 } else {
                     System.out.println("Error. There is no such id in the archive");
                 }
-
+            } else if (select == 3) {
+                System.out.println("== Delete request ==");
+                System.out.println("Enter id to delete required request: ");
+                int input = Integer.parseInt(scanner.nextLine());
+                if (tracker.delete(input)) {
+                    System.out.println("Selected request has been deleted successfully.");
+                } else {
+                    System.out.println("Error. There is no request with such id.");
+                }
             } else if (select == 6) {
                 run = false;
             }
