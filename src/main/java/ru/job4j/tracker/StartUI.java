@@ -57,6 +57,18 @@ public class StartUI {
                 } else {
                     System.out.println("Error. There is no request with such id.");
                 }
+            } else if (select == 5) {
+                System.out.println("== Find items by name ==");
+                System.out.println("Enter request name: ");
+                String input = scanner.nextLine();
+                Item[] items = tracker.findByName(input);
+                if (items.length > 0) {
+                    for (Item item : items) {
+                        System.out.println(item);
+                    }
+                } else {
+                    System.out.println("Error. There aren't requests with \"" + input + "\" name.");
+                }
             } else if (select == 6) {
                 run = false;
             }
