@@ -6,7 +6,6 @@ public class Dispatcher {
         Vehicle train = new Train();
         Vehicle bus = new Bus();
         Vehicle[] transports = new Vehicle[]{airplane, train, bus};
-        System.out.println("All transport had been lu");
         for (Vehicle transport : transports) {
             transport.move();
         }
