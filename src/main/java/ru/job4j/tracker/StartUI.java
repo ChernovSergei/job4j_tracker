@@ -28,9 +28,9 @@ public class StartUI {
                 }
             } else if (select == 2) {
                 System.out.println("== Replace Item ==");
-                System.out.println("Enter id to replace request: ");
+                System.out.print("Enter id to replace request: ");
                 int id = Integer.parseInt(scanner.nextLine());
-                System.out.println("Enter new request: ");
+                System.out.print("Enter new request: ");
                 String name = scanner.nextLine();
                 Item newItem = new Item(name);
                 if (tracker.replace(id, newItem)) {
