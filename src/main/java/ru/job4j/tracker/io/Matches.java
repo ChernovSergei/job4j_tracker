@@ -12,13 +12,17 @@ public class Matches {
             String player = turn ? "First gamer" : "Second gamer";
             System.out.println(player + ", enter number of matches from 1 to 3:");
             int matches = Integer.parseInt(input.nextLine());
-            if (matches <= 3 && matches > 0 && matches <= count) {
-                turn = !turn;
-                count -= matches;
-                System.out.println("Remaining matches = " + count);
-            } else {
-                System.out.println("Error. The entered number is out of limits. It has to be from 1 to 3 and less/ equal to left matches.");
+            if (matches > 3 || matches <= 0) {
+                System.out.println("Error. The number of entered matches exceed limits from 1 to 3");
+                continue;
             }
+            if (matches > count) {
+                System.out.println("Error. The number of entered matches is above left matches quantity: " + count);
+                continue;
+            }
+            turn = !turn;
+            count -= matches;
+            System.out.println("Remaining matches = " + count);
         }
         if (!turn) {
             System.out.println("First gamer is the winner");
