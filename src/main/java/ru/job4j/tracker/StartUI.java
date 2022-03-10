@@ -40,7 +40,7 @@ public class StartUI {
                 }
             } else if (select == 3) {
                 System.out.println("== Delete request ==");
-                System.out.println("Enter id to delete required request: ");
+                System.out.print("Enter id to delete required request: ");
                 int input = Integer.parseInt(scanner.nextLine());
                 if (tracker.delete(input)) {
                     System.out.println("Selected request has been deleted successfully.");
