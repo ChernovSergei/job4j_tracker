@@ -49,7 +49,7 @@ public class StartUI {
                 }
             } else if (select == 4) {
                 System.out.println("== Find request by id ==");
-                System.out.println("Enter request id to get its information: ");
+                System.out.print("Enter request id to get its information: ");
                 int input = Integer.parseInt(scanner.nextLine());
                 Item item = tracker.findById(input);
                 if (item != null) {
