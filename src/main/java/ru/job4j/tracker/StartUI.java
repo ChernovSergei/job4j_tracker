@@ -59,7 +59,7 @@ public class StartUI {
                 }
             } else if (select == 5) {
                 System.out.println("== Find items by name ==");
-                System.out.println("Enter request name: ");
+                System.out.print("Enter request name: ");
                 String input = scanner.nextLine();
                 Item[] items = tracker.findByName(input);
                 if (items.length > 0) {
