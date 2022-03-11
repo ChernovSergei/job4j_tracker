@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 public class StartUI {
+
     public void init(Input consoleInput, Tracker tracker) {
         boolean run = true;
         while (run) {
