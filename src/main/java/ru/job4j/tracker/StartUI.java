@@ -2,65 +2,89 @@ package ru.job4j.tracker;
 
 public class StartUI {
 
+    public static void createItem(Input consoleInput, Tracker tracker) {
+        System.out.println("== Create a new item ==");
+        String name = consoleInput.askStr("Enter item name: ");
+        Item item = new Item(name);
+        tracker.add(item);
+        System.out.println("The request had been added - " + item);
+    }
+
+    public static void showItems(Tracker tracker) {
+        System.out.println("== Show all items ==");
+        Item[] items = tracker.findAll();
+        if (items.length > 0) {
+            for (Item item : items) {
+                System.out.println(item);
+            }
+        } else {
+            System.out.println("Error. The archive doesn't have any requests");
+        }
+    }
+
+    public static void replaceItem(Input consoleInput, Tracker tracker) {
+        System.out.println("== Replace Item ==");
+        int id = consoleInput.askInt("Enter id to replace request: ");
+        String name = consoleInput.askStr("Enter new request: ");
+        Item newItem = new Item(name);
+        if (tracker.replace(id, newItem)) {
+            System.out.println("The request had been updated successfully");
+        } else {
+            System.out.println("Error. There is no such id in the archive");
+        }
+    }
+
+    public static void deleteItem(Input consoleInput, Tracker tracker) {
+        System.out.println("== Delete request ==");
+        int input = consoleInput.askInt("Enter id to delete required request: ");
+        if (tracker.delete(input)) {
+            System.out.println("Selected request has been deleted successfully.");
+        } else {
+            System.out.println("Error. There is no request with such id.");
+        }
+    }
+
+    public static void findById(Input consoleInput, Tracker tracker) {
+        System.out.println("== Find request by id ==");
+        int input = consoleInput.askInt("Enter request id to get its information: ");
+        Item item = tracker.findById(input);
+        if (item != null) {
+            System.out.println(item);
+        } else {
+            System.out.println("Error. There is no request with such id.");
+        }
+    }
+
+    public static void findByName(Input consoleInput, Tracker tracker) {
+        System.out.println("== Find items by name ==");
+        String input = consoleInput.askStr("Enter request name: ");
+        Item[] items = tracker.findByName(input);
+        if (items.length > 0) {
+            for (Item item : items) {
+                System.out.println(item);
+            }
+        } else {
+            System.out.println("Error. There aren't requests with \"" + input + "\" name.");
+        }
+    }
+
     public void init(Input consoleInput, Tracker tracker) {
         boolean run = true;
         while (run) {
             showMenu();
             int select = consoleInput.askInt("Select: ");
             if (select == 0) {
-                System.out.println("== Create a new item ==");
-                String name = consoleInput.askStr("Enter item name: ");
-                Item item = new Item(name);
-                tracker.add(item);
-                System.out.println("The request had been added - " + item);
+                StartUI.createItem(consoleInput, tracker);
             } else if (select == 1) {
-                System.out.println("== Show all items ==");
-                Item[] items = tracker.findAll();
-                if (items.length > 0) {
-                    for (Item item : items) {
-                        System.out.println(item);
-                    }
-                } else {
-                    System.out.println("Error. The archive doesn't have any requests");
-                }
+                StartUI.showItems(tracker);
             } else if (select == 2) {
-                System.out.println("== Replace Item ==");
-                int id = consoleInput.askInt("Enter id to replace request: ");
-                String name = consoleInput.askStr("Enter new request: ");
-                Item newItem = new Item(name);
-                if (tracker.replace(id, newItem)) {
-                    System.out.println("The request had been updated successfully");
-                } else {
-                    System.out.println("Error. There is no such id in the archive");
-                }
+                StartUI.replaceItem(consoleInput, tracker);
             } else if (select == 3) {
-                System.out.println("== Delete request ==");
-                int input = consoleInput.askInt("Enter id to delete required request: ");
-                if (tracker.delete(input)) {
-                    System.out.println("Selected request has been deleted successfully.");
-                } else {
-                    System.out.println("Error. There is no request with such id.");
-                }
+                StartUI.deleteItem(consoleInput, tracker);
             } else if (select == 4) {
-                System.out.println("== Find request by id ==");
-                int input = consoleInput.askInt("Enter request id to get its information: ");
-                Item item = tracker.findById(input);
-                if (item != null) {
-                    System.out.println(item);
-                } else {
-                    System.out.println("Error. There is no request with such id.");
-                }
+                StartUI.findById(consoleInput, tracker);
             } else if (select == 5) {
-                System.out.println("== Find items by name ==");
-                String input = consoleInput.askStr("Enter request name: ");
-                Item[] items = tracker.findByName(input);
-                if (items.length > 0) {
-                    for (Item item : items) {
-                        System.out.println(item);
-                    }
-                } else {
-                    System.out.println("Error. There aren't requests with \"" + input + "\" name.");
-                }
+                StartUI.findByName(consoleInput, tracker);
             } else if (select == 6) {
                 run = false;
             }
