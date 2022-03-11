@@ -27,7 +27,7 @@ public class StartUITest {
                 String.valueOf(item.getId()),
                 "Edited item"
         };
-        StartUI.replaceItem(new StubInput(answers),tracker);
+        StartUI.replaceItem(new StubInput(answers), tracker);
         Item edited = tracker.findById(item.getId());
         assertThat(edited.getName(), is("Edited item"));
     }
