@@ -1,107 +1,42 @@
 package ru.job4j.tracker;
 
+import java.lang.module.FindException;
+
 public class StartUI {
 
-    public static void createItem(Input consoleInput, Tracker tracker) {
-        System.out.println("== Create a new item ==");
-        String name = consoleInput.askStr("Enter item name: ");
-        Item item = new Item(name);
-        tracker.add(item);
-        System.out.println("The request had been added - " + item);
-    }
-
-    public static void showItems(Tracker tracker) {
-        System.out.println("== Show all items ==");
-        Item[] items = tracker.findAll();
-        if (items.length > 0) {
-            for (Item item : items) {
-                System.out.println(item);
-            }
-        } else {
-            System.out.println("Error. The archive doesn't have any requests");
-        }
-    }
-
-    public static void replaceItem(Input consoleInput, Tracker tracker) {
-        System.out.println("== Replace Item ==");
-        int id = consoleInput.askInt("Enter id to replace request: ");
-        String name = consoleInput.askStr("Enter new request: ");
-        Item newItem = new Item(name);
-        if (tracker.replace(id, newItem)) {
-            System.out.println("The request had been updated successfully");
-        } else {
-            System.out.println("Error. There is no such id in the archive");
-        }
-    }
-
-    public static void deleteItem(Input consoleInput, Tracker tracker) {
-        System.out.println("== Delete request ==");
-        int input = consoleInput.askInt("Enter id to delete required request: ");
-        if (tracker.delete(input)) {
-            System.out.println("Selected request has been deleted successfully.");
-        } else {
-            System.out.println("Error. There is no request with such id.");
-        }
-    }
-
-    public static void findById(Input consoleInput, Tracker tracker) {
-        System.out.println("== Find request by id ==");
-        int input = consoleInput.askInt("Enter request id to get its information: ");
-        Item item = tracker.findById(input);
-        if (item != null) {
-            System.out.println(item);
-        } else {
-            System.out.println("Error. There is no request with such id.");
-        }
-    }
-
-    public static void findByName(Input consoleInput, Tracker tracker) {
-        System.out.println("== Find items by name ==");
-        String input = consoleInput.askStr("Enter request name: ");
-        Item[] items = tracker.findByName(input);
-        if (items.length > 0) {
-            for (Item item : items) {
-                System.out.println(item);
-            }
-        } else {
-            System.out.println("Error. There aren't requests with \"" + input + "\" name.");
-        }
-    }
-
-    public void init(Input consoleInput, Tracker tracker) {
+    public void init(Input input, Tracker tracker, UserAction[] actions) {
         boolean run = true;
         while (run) {
-            showMenu();
-            int select = consoleInput.askInt("Select: ");
-            if (select == 0) {
-                StartUI.createItem(consoleInput, tracker);
-            } else if (select == 1) {
-                StartUI.showItems(tracker);
-            } else if (select == 2) {
-                StartUI.replaceItem(consoleInput, tracker);
-            } else if (select == 3) {
-                StartUI.deleteItem(consoleInput, tracker);
-            } else if (select == 4) {
-                StartUI.findById(consoleInput, tracker);
-            } else if (select == 5) {
-                StartUI.findByName(consoleInput, tracker);
-            } else if (select == 6) {
-                run = false;
+            this.showMenu(actions);
+            int select = input.askInt("Select item:");
+            if (select >= 0 && select < 7) {
+                UserAction action = actions[select];
+                run = action.execute(input, tracker);
+            } else {
+                System.out.println("Error. You put wrong number");
             }
         }
     }
 
-    private static void showMenu() {
-        String[] menu = {"Add new item", "Show all items", "Replace item", "Delete item", "Find item by id", "Find items by name", "Exit program"};
+    private void showMenu(UserAction[] actions) {
         System.out.println("Menu:");
-        for (int i = 0; i < menu.length; i++) {
-            System.out.println(i + ". " + menu[i]);
+        for (int i = 0; i < actions.length; i++) {
+            System.out.println(i + ". " + actions[i].name());
         }
     }
 
     public static void main(String[] args) {
         Input input = new ConsoleInput();
         Tracker tracker = new Tracker();
-        new StartUI().init(input, tracker);
+        UserAction[] actions = {
+                new CreateAction(),
+                new ShowAction(),
+                new ReplaceAction(),
+                new DeleteAction(),
+                new FindIDAction(),
+                new FindNameAction(),
+                new ExitAction(),
+        };
+        new StartUI().init(input, tracker, actions);
     }
 }
