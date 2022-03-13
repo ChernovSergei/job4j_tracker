@@ -8,10 +8,10 @@ import static org.hamcrest.Matchers.nullValue;
 public class StartUITest {
     @Test
     public void whenCreateItem() {
+        Tracker tracker = new Tracker();
         String[] answers = {"0", "Create Item", "1"};
         Input input = new StubInput(answers);
         Output output = new StubOutput();
-        Tracker tracker = new Tracker();
         UserAction[] action = {new CreateAction(output), new ExitAction(output)};
         new StartUI(output).init(input, tracker, action);
         assertThat(tracker.findAll()[0].getName(), is("Create Item"));
@@ -20,24 +20,25 @@ public class StartUITest {
     @Test
     public void whenReplaceAction() {
         Tracker tracker = new Tracker();
-        Item item = new Item("Replaced Item");
-        String[] answers = {"1", item.getName(), "1"};
+        Item item = new Item("Original name");
+        tracker.add(item);
+        String replacedName = "Replaced name";
+        String[] answers = {"0", String.valueOf(item.getId()), replacedName, "1"};
         Input input = new StubInput(answers);
         Output output = new StubOutput();
-        tracker.add(item);
         UserAction[] action = {new ReplaceAction(output), new ExitAction(output)};
         new StartUI(output).init(input, tracker, action);
-        assertThat(tracker.findById(item.getId()).getName(), is("Replaced Item"));
+        assertThat(tracker.findById(item.getId()).getName(), is(replacedName));
     }
 
     @Test
     public void whenDeleteAction() {
-        String[] answers = {"0", "1", "1"};
-        Input input = new StubInput(answers);
-        Output output = new StubOutput();
         Tracker tracker = new Tracker();
         Item item = new Item("Item to delete");
         tracker.add(item);
+        String[] answers = {"0", String.valueOf(item.getId()), "1"};
+        Input input = new StubInput(answers);
+        Output output = new StubOutput();
         UserAction[] action = {new DeleteAction(output), new ExitAction(output)};
         new StartUI(output).init(input, tracker, action);
         assertThat(tracker.findById(item.getId()), is(nullValue()));
@@ -45,10 +46,11 @@ public class StartUITest {
 
     @Test
     public void whenReplaceItemTestOutputIsSuccessfully() {
-        Item item = new Item("Item to replace");
         Tracker tracker = new Tracker();
+        Item item = new Item("New Name");
         tracker.add(item);
-        String[] answers = {"0", String.valueOf(item.getId()), "Replaced item", "1"};
+        String replacedItem = "Replaced name";
+        String[] answers = {"0", String.valueOf(item.getId()), replacedItem, "1"};
         Input input = new StubInput(answers);
         Output out = new StubOutput();
         UserAction[] actions = {new ReplaceAction(out), new ExitAction(out)};
