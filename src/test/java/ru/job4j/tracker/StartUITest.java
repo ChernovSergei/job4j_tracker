@@ -72,12 +72,13 @@ public class StartUITest {
     @Test
     public void whenFindAllActionTestOutputIsSuccessfully() {
         Tracker tracker = new Tracker();
-        Item[] items = {new Item("first"), new Item("second"), new Item("third")};
         Output result = new StubOutput();
-        for (Item item: items) {
-            tracker.add(item);
-            result.println(item);
-        }
+        Item first = tracker.add(new Item("first"));
+        Item second = tracker.add(new Item("second"));
+        Item third = tracker.add(new Item("third"));
+        result.println(first);
+        result.println(second);
+        result.println(third);
         String itemNames = result.toString();
         String[] answers = {"0", "1"};
         Input input = new StubInput(answers);
@@ -102,12 +103,11 @@ public class StartUITest {
     public void whenFindByNameActionTestOutputIsSuccessfully() {
         String targetName = "second";
         Tracker tracker = new Tracker();
-        Item[] items = {new Item("first"), new Item(targetName), new Item("third")};
         Output result = new StubOutput();
-        for (Item item: items) {
-            tracker.add(item);
-        }
-        result.println(items[1]);
+        Item first = tracker.add(new Item("first"));
+        Item second = tracker.add(new Item(targetName));
+        Item third = tracker.add(new Item("third"));
+        result.println(second);
         String itemName = result.toString();
         String[] answers = {"0", targetName, "1"};
         Input input = new StubInput(answers);
@@ -133,14 +133,13 @@ public class StartUITest {
     public void whenFindByIdActionTestOutputIsSuccessfully() {
         String targetName = "second";
         Tracker tracker = new Tracker();
-        Item[] items = {new Item("first"), new Item(targetName), new Item("third")};
         Output result = new StubOutput();
-        for (Item item: items) {
-            tracker.add(item);
-        }
-        result.println(items[1]);
+        Item first = tracker.add(new Item("first"));
+        Item second = tracker.add(new Item("second"));
+        Item third = tracker.add(new Item("third"));
+        result.println(second);
         String itemName = result.toString();
-        String[] answers = {"0", String.valueOf(items[1].getId()), "1"};
+        String[] answers = {"0", String.valueOf(second.getId()), "1"};
         Input input = new StubInput(answers);
         Output out = new StubOutput();
         UserAction[] actions = {new FindIDAction(out), new ExitAction(out)};
