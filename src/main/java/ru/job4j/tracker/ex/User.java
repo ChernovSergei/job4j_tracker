@@ -4,9 +4,9 @@ public class User {
     private String name;
     private boolean valid;
 
-    public User(String name) {
+    public User(String name, boolean valid) {
         this.name = name;
-        valid = isValid();
+        this.valid = valid;
     }
 
     public String getName() {
@@ -14,10 +14,6 @@ public class User {
     }
 
     public boolean isValid() {
-        valid = false;
-        if (name.length() > 3) {
-            valid = true;
-        }
         return valid;
     }
 }

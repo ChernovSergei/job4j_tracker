@@ -6,6 +6,7 @@ public class UserStore {
         for (User user : users) {
             if (login.equals(user.getName())) {
                 rsl = user;
+                break;
             }
         }
         if (rsl == null) {
@@ -15,14 +16,14 @@ public class UserStore {
     }
 
     public static boolean validate(User user) throws UserInvalidException {
-        if (!user.isValid()) {
+        if (user.getName().length() < 3) {
             throw new UserInvalidException("The user isn't valid");
         }
         return user.isValid();
     }
 
     public static void main(String[] args) {
-        User[] users = {new User("Petr Arsentev")};
+        User[] users = {new User("Petr Arsentev", true)};
         try {
             User user = findUser(users, "Petr Arsentev");
             validate(user);
