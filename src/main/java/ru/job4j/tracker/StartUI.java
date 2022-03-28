@@ -7,7 +7,7 @@ public class StartUI {
         this.out = out;
     }
 
-    public void init(Input input, Tracker tracker, UserAction[] actions) {
+    public void init(Input input, Tracker tracker, UserAction[] actions) throws ElementNotFoundExc {
         boolean run = true;
         while (run) {
             this.showMenu(actions);
@@ -16,7 +16,7 @@ public class StartUI {
                 UserAction action = actions[select];
                 run = action.execute(input, tracker);
             } else {
-                out.println("Error. You put wrong number");
+                throw new ElementNotFoundExc("Error. You put wrong number");
             }
         }
     }
@@ -30,7 +30,7 @@ public class StartUI {
 
     public static void main(String[] args) {
         Output output = new ConsoleOutput();
-        Input input = new ConsoleInput();
+        Input input = new ValidateInput();
         Tracker tracker = new Tracker();
         UserAction[] actions = {
                 new CreateAction(output),
@@ -41,6 +41,10 @@ public class StartUI {
                 new FindNameAction(output),
                 new ExitAction(output),
         };
-        new StartUI(output).init(input, tracker, actions);
+        try {
+            new StartUI(output).init(input, tracker, actions);
+        } catch (ElementNotFoundExc enf) {
+            enf.printStackTrace();
+        }
     }
 }
