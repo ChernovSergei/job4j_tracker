@@ -7,17 +7,18 @@ public class StartUI {
         this.out = out;
     }
 
-    public void init(Input input, Tracker tracker, UserAction[] actions) throws ElementNotFoundExc {
+    public void init(Input input, Tracker tracker, UserAction[] actions) {
         boolean run = true;
         while (run) {
             this.showMenu(actions);
             int select = input.askInt("Select item:");
-            if (select >= 0 && select < 7) {
+            try {
                 UserAction action = actions[select];
                 run = action.execute(input, tracker);
-            } else {
-                throw new ElementNotFoundExc("Error. You put wrong number");
+            } catch (ArrayIndexOutOfBoundsException abe) {
+                System.out.println("Please enter existing menu item");
             }
+
         }
     }
 
@@ -41,10 +42,6 @@ public class StartUI {
                 new FindNameAction(output),
                 new ExitAction(output),
         };
-        try {
-            new StartUI(output).init(input, tracker, actions);
-        } catch (ElementNotFoundExc enf) {
-            enf.printStackTrace();
-        }
+        new StartUI(output).init(input, tracker, actions);
     }
 }
