@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 public class StartUITest {
-    /*@Test
+    @Test
     public void whenCreateItem() {
         Tracker tracker = new Tracker();
         String[] answers = {"0", "Create Item", "1"};
@@ -157,5 +157,5 @@ public class StartUITest {
                         + "1. Exit." + ln
                         + "== Exit ==" + ln
         ));
-    }*/
+    }
 }
