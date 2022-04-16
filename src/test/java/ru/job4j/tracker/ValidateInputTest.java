@@ -24,9 +24,9 @@ public class ValidateInputTest {
                 new String[] {"1", "2", "3"}
         );
         ValidateInput input = new ValidateInput(out, in);
-        for (int i = 0; i < 3; i++) {
-            out.println(input.askStr("menu:"));
-        }
+        out.println(input.askStr("menu:"));
+        out.println(input.askStr("menu:"));
+        out.println(input.askStr("menu:"));
         String ln = System.lineSeparator();
         assertThat(out.toString(), is(1 + ln + 2 + ln + 3 + ln));
     }
