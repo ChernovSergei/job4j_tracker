@@ -10,8 +10,8 @@ public class PriorityQueueTest {
     public void whenHighPriority() {
         PriorityQueue queue = new PriorityQueue();
         Task washEngine = new Task("Wash Engine", 1);
-        Task instrumentCheck = new Task ("Check data units", 3);
-        Task borescopeInspection = new Task ("Complete borescope inspection", 2);
+        Task instrumentCheck = new Task("Check data units", 3);
+        Task borescopeInspection = new Task("Complete borescope inspection", 2);
         queue.put(washEngine);
         queue.put(instrumentCheck);
         queue.put(borescopeInspection);
