@@ -9,7 +9,7 @@ import static org.hamcrest.core.Is.is;
 
 public class PhoneDirectoryTest {
     @Test
-    public void whenFindName(){
+    public void whenFindName() {
         PhoneDirectory phoneDirectory = new PhoneDirectory();
         phoneDirectory.add(new Person("Vasility", "Martunov", "longComplicatedPhoneNumber", "Borzya"));
         String key = "rtun";
@@ -19,7 +19,7 @@ public class PhoneDirectoryTest {
     }
 
     @Test
-    public void whenNoMatch(){
+    public void whenNoMatch() {
         PhoneDirectory phoneDirectory = new PhoneDirectory();
         phoneDirectory.add(new Person("Vasility", "Martunov", "longComplicatedPhoneNumber", "Borzya"));
         String key = "tuun";
