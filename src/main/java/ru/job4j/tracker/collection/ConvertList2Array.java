@@ -10,8 +10,11 @@ public class ConvertList2Array {
         int row = 0, column = 0;
         for (int num: list) {
             array[row][column] = num;
-            column = ((column + 1) >= columns) ? 0 : ++column;
-            row = (column == 0) ? ++row : row;
+            column++;
+            if (column == columns) {
+                row++;
+                column = 0;
+            }
         }
         return array;
     }
