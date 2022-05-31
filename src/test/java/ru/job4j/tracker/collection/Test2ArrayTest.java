@@ -6,7 +6,7 @@ import java.util.Arrays;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class ConvertList2ArrayTest {
+public class Test2ArrayTest {
 
     @Test
     public void when7ElementsThen9() {
