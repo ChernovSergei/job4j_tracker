@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import java.util.ArrayList;
 
 public class StartUITest {
     @Test
@@ -14,7 +15,7 @@ public class StartUITest {
         Output output = new StubOutput();
         UserAction[] action = {new CreateAction(output), new ExitAction(output)};
         new StartUI(output).init(input, tracker, action);
-        assertThat(tracker.findAll()[0].getName(), is("Create Item"));
+        assertThat(tracker.findAll().get(0).getName(), is("Create Item"));
     }
 
     @Test
