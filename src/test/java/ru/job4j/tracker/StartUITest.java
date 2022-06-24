@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StartUITest {
     @Test
@@ -13,7 +14,7 @@ public class StartUITest {
         String[] answers = {"0", "Create Item", "1"};
         Input input = new StubInput(answers);
         Output output = new StubOutput();
-        UserAction[] action = {new CreateAction(output), new ExitAction(output)};
+        List<UserAction> action = List.of(new CreateAction(output), new ExitAction(output));
         new StartUI(output).init(input, tracker, action);
         assertThat(tracker.findAll().get(0).getName(), is("Create Item"));
     }
@@ -27,7 +28,7 @@ public class StartUITest {
         String[] answers = {"0", String.valueOf(item.getId()), replacedName, "1"};
         Input input = new StubInput(answers);
         Output output = new StubOutput();
-        UserAction[] action = {new ReplaceAction(output), new ExitAction(output)};
+        List<UserAction> action = List.of(new ReplaceAction(output), new ExitAction(output));
         new StartUI(output).init(input, tracker, action);
         assertThat(tracker.findById(item.getId()).getName(), is(replacedName));
     }
@@ -40,7 +41,7 @@ public class StartUITest {
         String[] answers = {"0", String.valueOf(item.getId()), "1"};
         Input input = new StubInput(answers);
         Output output = new StubOutput();
-        UserAction[] action = {new DeleteAction(output), new ExitAction(output)};
+        List<UserAction> action = List.of(new DeleteAction(output), new ExitAction(output));
         new StartUI(output).init(input, tracker, action);
         assertThat(tracker.findById(item.getId()), is(nullValue()));
     }
@@ -54,7 +55,7 @@ public class StartUITest {
         String[] answers = {"0", String.valueOf(item.getId()), replacedItem, "1"};
         Input input = new StubInput(answers);
         Output out = new StubOutput();
-        UserAction[] actions = {new ReplaceAction(out), new ExitAction(out)};
+        List<UserAction> actions = List.of(new ReplaceAction(out), new ExitAction(out));
         new StartUI(out).init(input, tracker, actions);
         String ln = System.lineSeparator();
         assertThat(out.toString(), is(
@@ -84,7 +85,7 @@ public class StartUITest {
         String[] answers = {"0", "1"};
         Input input = new StubInput(answers);
         Output out = new StubOutput();
-        UserAction[] actions = {new ShowAction(out), new ExitAction(out)};
+        List<UserAction> actions = List.of(new ShowAction(out), new ExitAction(out));
         new StartUI(out).init(input, tracker, actions);
         String ln = System.lineSeparator();
         assertThat(out.toString(), is(
@@ -113,7 +114,7 @@ public class StartUITest {
         String[] answers = {"0", targetName, "1"};
         Input input = new StubInput(answers);
         Output out = new StubOutput();
-        UserAction[] actions = {new FindNameAction(out), new ExitAction(out)};
+        List<UserAction> actions = List.of(new FindNameAction(out), new ExitAction(out));
         new StartUI(out).init(input, tracker, actions);
         String ln = System.lineSeparator();
         String output = out.toString();
@@ -143,7 +144,7 @@ public class StartUITest {
         String[] answers = {"0", String.valueOf(second.getId()), "1"};
         Input input = new StubInput(answers);
         Output out = new StubOutput();
-        UserAction[] actions = {new FindIDAction(out), new ExitAction(out)};
+        List<UserAction> actions = List.of(new FindIDAction(out), new ExitAction(out));
         new StartUI(out).init(input, tracker, actions);
         String ln = System.lineSeparator();
         String output = out.toString();

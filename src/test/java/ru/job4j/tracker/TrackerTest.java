@@ -3,6 +3,7 @@ package ru.job4j.tracker;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -49,7 +50,7 @@ public class TrackerTest {
         tracker.add(new Item("First"));
         tracker.add(new Item("Second"));
         tracker.add(new Item("First"));
-        ArrayList<Item> result = tracker.findByName(first.getName());
+        List<Item> result = tracker.findByName(first.getName());
         assertThat(result.size(), is(3));
     }
 
@@ -63,7 +64,7 @@ public class TrackerTest {
         tracker.add(new Item("First"));
         tracker.add(new Item("Second"));
         tracker.add(new Item("First"));
-        ArrayList<Item> result = tracker.findByName(second.getName());
+        List<Item> result = tracker.findByName(second.getName());
         assertThat(result.get(1).getName(), is(second.getName()));
     }
 
@@ -98,13 +99,13 @@ public class TrackerTest {
                 new String[] {"1", "0"}
         );
         Tracker tracker = new Tracker();
-        UserAction[] actions = new UserAction[] {new ExitAction(out)};
+        List<UserAction> actions = List.of(new ExitAction(out));
         new StartUI(out).init(in, tracker, actions);
         String ln = System.lineSeparator();
         assertThat(out.toString(), is(
                 "Menu:" + ln
                 + "0. Exit." + ln
-                + "Wrong input, you can select: 0 .. " + (actions.length - 1) + ln
+                + "Wrong input, you can select: 0 .. " + (actions.size() - 1) + ln
                 + "Menu:" + ln
                 + "0. Exit." + ln
                 + "== Exit ==" + ln
