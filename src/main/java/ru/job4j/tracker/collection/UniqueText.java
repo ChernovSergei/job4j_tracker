@@ -14,7 +14,7 @@ public class UniqueText {
         for (String duplicateWord : duplicate) {
             if (!check.contains(duplicateWord)) {
                 result = false;
-                return result;
+                break;
             }
         }
         return result;
