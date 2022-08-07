@@ -20,17 +20,15 @@ public class AnalyzeByMap {
 
     public static List<Label> averageScoreByPupil(List<Pupil> pupils) {
         Map<String, Label> labels = new HashMap<>();
-        double score;
-        int counter;
+
         for (Pupil pupil : pupils) {
+            double score;
             labels.putIfAbsent(pupil.name(), new Label(pupil.name(), 0D));
             score = 0D;
-            counter = 0;
             for (Subject subject : pupil.subjects()) {
                 score += subject.score();
-                counter++;
             }
-            score /= counter;
+            score /= pupil.subjects().size();
             labels.replace(pupil.name(), new Label(pupil.name(), score));
         }
         return new ArrayList<>(labels.values());
@@ -38,19 +36,16 @@ public class AnalyzeByMap {
 
     public static List<Label> averageScoreBySubject(List<Pupil> pupils) {
         Map<String, Label> labels = new HashMap<>();
-        int counter = 0;
-        double score;
-
         for (Pupil pupil : pupils) {
+            double score;
             for (Subject subject : pupil.subjects()) {
                 labels.putIfAbsent(subject.name(), new Label(subject.name(), 0D));
                 score = labels.get(subject.name()).score() + subject.score();
                 labels.replace(subject.name(), new Label(subject.name(), score));
             }
-            counter++;
         }
         for (Map.Entry<String, Label> label: labels.entrySet()) {
-            label.setValue(new Label(label.getValue().name(), label.getValue().score() / counter));
+            label.setValue(new Label(label.getValue().name(), label.getValue().score() / labels.size()));
         }
         return new ArrayList<>(labels.values());
     }
