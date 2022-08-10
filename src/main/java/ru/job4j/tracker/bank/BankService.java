@@ -10,21 +10,16 @@ public class BankService {
     private final Map<User, List<Account>> users = new HashMap<>();
 
     public void addUser(User user) {
-        if (!users.containsKey(user)) {
-            users.put(user, new ArrayList<Account>());
-        }
+        users.putIfAbsent(user, new ArrayList<>());
     }
 
     public void addAccount(String passport, Account account) {
-        boolean noAccount = true;
         User user = findByPassport(passport);
-        for (Account accountIterator : users.get(user)) {
-            if (accountIterator.equals(account)) {
-               noAccount = false;
-            }
-        }
-        if (noAccount) {
-            users.get(user).add(account);
+        if (user != null) {
+           List<Account> accounts = users.get(user);
+           if (!accounts.contains(account)) {
+              accounts.add(account);
+           }
         }
     }
 
@@ -33,6 +28,7 @@ public class BankService {
         for (User userIterator : users.keySet()) {
             if (userIterator.getPassport().equals(passport)) {
                 user = userIterator;
+                break;
             }
         }
         return user;
@@ -45,6 +41,7 @@ public class BankService {
             for (Account account : users.get(user)) {
                 if (account.getRequisite().equals(requisite)) {
                     result = account;
+                    break;
                 }
             }
         }
@@ -54,16 +51,9 @@ public class BankService {
     public boolean transferMoney(String sourcePassport, String sourceRequisite,
                                  String destPassport, String destRequisite, double amount) {
         boolean result = false;
-        User userSource = findByPassport(sourcePassport);
         Account accountSource = findByRequisite(sourcePassport, sourceRequisite);
-        users.putIfAbsent(findByPassport(destPassport), new ArrayList<Account>());
-        User userDest = findByPassport(destPassport);
         Account accountDest = findByRequisite(destPassport, destRequisite);
-        if (accountDest.equals(null)) {
-            users.get(findByPassport(destPassport)).add(new Account(destRequisite, 0D));
-        }
-
-        if (!userSource.equals(null) && !accountSource.equals(null) &&  accountSource.getBalance() >= amount) {
+        if (!accountSource.equals(null) && !accountSource.equals(null) &&  accountSource.getBalance() >= amount) {
             accountSource.setBalance(accountSource.getBalance() - amount);
             accountDest.setBalance(accountDest.getBalance() + amount);
             result = true;
