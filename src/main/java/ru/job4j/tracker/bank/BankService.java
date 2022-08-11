@@ -56,6 +56,7 @@ public class BankService {
         if (accountSource != null && accountSource != null &&  accountSource.getBalance() >= amount) {
             accountSource.setBalance(accountSource.getBalance() - amount);
             accountDest.setBalance(accountDest.getBalance() + amount);
+
             result = true;
         }
 
