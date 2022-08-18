@@ -56,12 +56,12 @@ public class JobTest {
     }
 
     @Test
-    public void equalPriorityByName() {
+    public void equalPriorityAndName() {
         Comparator<Job> equalPriorityName = new JobDescByName().thenComparing(new JobDescByPriority());
         int rsl = equalPriorityName.compare(
-                new Job("Z", 2),
+                new Job("A", 2),
                 new Job("A", 2)
         );
-        assertThat(rsl).isLessThan(0);
+        assertThat(rsl).isEqualTo(0);
     }
 }
