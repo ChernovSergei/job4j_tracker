@@ -12,6 +12,7 @@ public class LexSort implements Comparator<String> {
             return false;
         }
     }
+
     @Override
     public int compare(String left, String right) {
         String[] splitLeft = left.split("\\.");
