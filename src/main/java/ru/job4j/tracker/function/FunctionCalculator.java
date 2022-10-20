@@ -9,8 +9,7 @@ public class FunctionCalculator {
         Double result;
         List<Double> list = new ArrayList<>();
         for (int i = start; i < end; i++) {
-             result = func.apply(Double.valueOf(i));
-             list.add(result);
+             list.add(func.apply(Double.valueOf(i)));
         }
         return list;
     }
