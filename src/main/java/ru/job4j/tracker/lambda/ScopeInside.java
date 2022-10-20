@@ -1,6 +1,6 @@
 package ru.job4j.tracker.lambda;
 
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ScopeInside {
     public static void main(String[] args) {
@@ -8,12 +8,12 @@ public class ScopeInside {
         int total = 0;
         for (int i = 0; i < number.length; i++) {
             int num = number[i];
-            total = add(total, x -> x + num);
+            total = add(total, () -> num);
         }
         System.out.println(total);
     }
 
-    private static Integer add(Integer sum, Function<Integer, Integer> calc) {
-        return calc.apply(sum);
+    private static Integer add(Integer sum, Supplier<Integer> calc) {
+        return sum + calc.get();
     }
 }
