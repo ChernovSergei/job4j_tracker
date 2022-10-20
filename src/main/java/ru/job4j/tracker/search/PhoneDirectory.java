@@ -11,12 +11,12 @@ public class PhoneDirectory {
     }
 
     public ArrayList<Person> find(String key) {
-        Predicate<Person> combine = (x) -> (
-                x.getName().contains(key)
-                || x.getSurname().contains(key)
-                || x.getPhone().contains(key)
-                || x.getAddress().contains(key)
-        );
+        Predicate<Person> compNames = (x) -> x.getName().contains(key);
+        Predicate<Person> compSurnames = (x) -> x.getSurname().contains(key);
+        Predicate<Person> compPhones = (x) -> x.getPhone().contains(key);
+        Predicate<Person> compAdress = (x) -> x.getAddress().contains(key);
+
+        Predicate<Person> combine = (x) -> compNames.test(x) || compSurnames.test(x) || compPhones.test(x) || compAdress.test(x);
         ArrayList<Person> result = new ArrayList<>();
         for (Person foundPerson: persons) {
             if (combine.test(foundPerson)) {
