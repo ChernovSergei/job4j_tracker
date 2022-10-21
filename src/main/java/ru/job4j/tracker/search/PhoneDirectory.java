@@ -16,7 +16,7 @@ public class PhoneDirectory {
         Predicate<Person> compPhones = (x) -> x.getPhone().contains(key);
         Predicate<Person> compAdress = (x) -> x.getAddress().contains(key);
 
-        Predicate<Person> combine = (x) -> compNames.test(x) || compSurnames.test(x) || compPhones.test(x) || compAdress.test(x);
+        Predicate<Person> combine = compNames.or(compSurnames.or(compPhones.or(compAdress)));
         ArrayList<Person> result = new ArrayList<>();
         for (Person foundPerson: persons) {
             if (combine.test(foundPerson)) {
