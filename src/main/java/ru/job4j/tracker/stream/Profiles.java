@@ -13,6 +13,7 @@ public class Profiles {
                 .distinct()
                 .collect(Collectors.toCollection(ArrayList::new));
     }
+
     public static List<Address> collect(List<Profile> profiles) {
         return profiles.stream()
                 .map(x -> x.getAddress())
