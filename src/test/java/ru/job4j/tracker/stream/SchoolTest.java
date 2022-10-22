@@ -37,7 +37,7 @@ public class SchoolTest {
                 new Student(80, "Surname8")
         );
         School sc = new School();
-        List<Student> rsl = students.stream().filter(x -> x.getScore() <70).filter(x -> x.getScore() >= 50)
+        List<Student> rsl = students.stream().filter(x -> x.getScore() < 70).filter(x -> x.getScore() >= 50)
                 .collect(Collectors.toList());
         List<Student> expected = new ArrayList<>();
         expected.add(new Student(50, "Surname5"));
