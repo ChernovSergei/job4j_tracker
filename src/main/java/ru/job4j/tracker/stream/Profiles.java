@@ -9,10 +9,10 @@ public class Profiles {
 
     public static List<Address> collectSortWithoutDuplicate(List<Profile> profiles) {
         return profiles.stream()
-                .map(x -> x.getAddress())
-                .sorted(Comparator.comparing(x -> x.getCity()))
+                .map(Profile::getAddress)
+                .sorted(Comparator.comparing(Address::getCity))
                 .distinct()
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toList());
     }
 
     public static List<Address> collect(List<Profile> profiles) {
