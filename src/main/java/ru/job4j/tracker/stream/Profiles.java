@@ -17,7 +17,7 @@ public class Profiles {
 
     public static List<Address> collect(List<Profile> profiles) {
         return profiles.stream()
-                .map(x -> x.getAddress())
-                .collect(Collectors.toCollection(ArrayList::new));
+                .map(Profile::getAddress)
+                .collect(Collectors.toList());
     }
 }
