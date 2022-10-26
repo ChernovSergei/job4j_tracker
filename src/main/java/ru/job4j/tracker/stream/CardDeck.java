@@ -9,7 +9,7 @@ public class CardDeck {
     public static void main(String[] args) {
         Stream.of(Suit.values())
                 .flatMap(x -> Stream.of(Value.values())
-                        .map(y -> x + " " + y))
+                        .map(y -> new Card(x, y).toString()))
                 .forEach(System.out::println);
     }
 }
