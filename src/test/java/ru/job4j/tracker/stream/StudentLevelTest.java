@@ -26,6 +26,7 @@ public class StudentLevelTest {
         List<Student> expected = List.of();
         assertThat(StudentLevel.levelOf(input, 20)).containsSequence(expected);
     }
+
     @Test
     public void whenHasNull() {
         List<Student> input = new ArrayList<>();
