@@ -11,9 +11,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PhoneDirectoryTest {
     @Test
     public void whenFindName() {
-        PhoneDirectory phoneDirectory = new PhoneDirectory();
+        var phoneDirectory = new PhoneDirectory();
         phoneDirectory.add(new Person("Vasility", "Martunov", "longComplicatedPhoneNumber", "Borzya"));
-        String key = "rtun";
+        var key = "rtun";
         ArrayList<Person> persons = new ArrayList<>();
         persons = phoneDirectory.find(key);
         assertThat(persons.get(0).getSurname(), is("Martunov"));
@@ -21,9 +21,9 @@ public class PhoneDirectoryTest {
 
     @Test
     public void whenNoMatch() {
-        PhoneDirectory phoneDirectory = new PhoneDirectory();
+        var phoneDirectory = new PhoneDirectory();
         phoneDirectory.add(new Person("Vasility", "Martunov", "longComplicatedPhoneNumber", "Borzya"));
-        String key = "tuun";
+        var key = "tuun";
         ArrayList<Person> persons = new ArrayList<>();
         persons = phoneDirectory.find(key);
         assertThat(persons.size(), is(0));
@@ -31,7 +31,7 @@ public class PhoneDirectoryTest {
 
     @Test
     public void whenFindByName() {
-        PhoneDirectory phones = new PhoneDirectory();
+        var phones = new PhoneDirectory();
         phones.add(
                 new Person("Petr", "Arsentev", "534872", "Bryansk")
         );
