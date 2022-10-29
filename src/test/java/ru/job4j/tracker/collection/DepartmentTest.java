@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DepartmentTest {
     @Test
     public void whenMissed() {
-        List<String> input = List.of("k1/sk1", "k2/sk1");
+        List<String> input = Arrays.asList("k1/sk1", "k2/sk1");
         List<String> expected = List.of("k1", "k1/sk1", "k2", "k2/sk1");
         List<String> result = Departments.fillGaps(input);
         assertThat(result).containsAll(expected);
@@ -16,7 +16,7 @@ public class DepartmentTest {
 
     @Test
     public void whenNonChange() {
-        List<String> input = List.of("k1", "k1/sk1");
+        List<String> input = Arrays.asList("k1", "k1/sk1");
         List<String> expected = List.of("k1", "k1/sk1");
         List<String> result = Departments.fillGaps(input);
         assertThat(result).containsAll(expected);
@@ -24,7 +24,7 @@ public class DepartmentTest {
 
     @Test
     public void whenSortAscWithoutMissedDepartments() {
-        List<String> input = List.of(
+        List<String> input = Arrays.asList(
                 "K1/SK1",
                 "K1/SK1/SSK1",
                 "K1/SK1/SSK2",
@@ -52,7 +52,7 @@ public class DepartmentTest {
 
     @Test
     public void whenSortAscWithMissedDepartments() {
-        List<String> input = List.of(
+        List<String> input = Arrays.asList(
                 "K1/SK1/SSK1",
                 "K1/SK1/SSK2",
                 "K2/SK1",
@@ -74,7 +74,7 @@ public class DepartmentTest {
 
     @Test
     public void whenSortDescWithoutMissedDepartments() {
-        List<String> input = List.of(
+        List<String> input = Arrays.asList(
                 "K1/SK1",
                 "K1/SK1/SSK1",
                 "K1/SK1/SSK2",
@@ -102,7 +102,7 @@ public class DepartmentTest {
 
     @Test
     public void whenSortDescWithMissedDepartments() {
-        List<String> input = List.of(
+        List<String> input = Arrays.asList(
                 "K1/SK1/SSK1",
                 "K1/SK1/SSK2",
                 "K2/SK1",
