@@ -11,31 +11,35 @@ public class College {
     }
 
     public Student findByAccount(String account) {
-        /*for (Student s : students.keySet()) {
+        Student rsl = null;
+        for (Student s : students.keySet()) {
             if (s.getAccount().equals(account)) {
-                return s;
+                rsl = s;
+                break;
             }
         }
-        return null;*/
-        return students.keySet()
+        return rsl;
+        /*return students.keySet()
                 .stream()
                 .filter(s -> s.getAccount().equals(account))
                 .findFirst()
-                .orElse(null);
+                .orElse(null);*/
     }
 
     public Subjects findBySubjectName(String account, String name) {
-        /*Student a = findByAccount(account);
+        Subjects rsl = null;
+        Student a = findByAccount(account);
         if (a != null) {
             Set<Subjects> subjects = students.get(a);
             for (Subjects s : subjects) {
                 if (s.getName().equals(name)) {
-                    return s;
+                    rsl = s;
+                    break;
                 }
             }
         }
-        return null;*/
-        Student a = findByAccount(account);
+        return rsl;
+        /*Student a = findByAccount(account);
         if (a != null) {
             return students.get(a)
                     .stream()
@@ -43,7 +47,7 @@ public class College {
                     .findFirst()
                     .orElse(null);
         }
-        return null;
+        return null;*/
     }
 
     public static void main(String[] args) {
