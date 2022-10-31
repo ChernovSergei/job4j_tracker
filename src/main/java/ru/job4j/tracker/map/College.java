@@ -2,6 +2,7 @@ package ru.job4j.tracker.map;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.Optional;
 
 public class College {
     private final Map<Student, Set<Subjects>> students;
@@ -10,44 +11,30 @@ public class College {
         this.students = students;
     }
 
-    public Student findByAccount(String account) {
-        Student rsl = null;
+    public Optional<Student> findByAccount(String account) {
+        Optional<Student> rsl = Optional.empty();
         for (Student s : students.keySet()) {
             if (s.getAccount().equals(account)) {
-                rsl = s;
+                rsl = Optional.of(s);
                 break;
             }
         }
         return rsl;
-        /*return students.keySet()
-                .stream()
-                .filter(s -> s.getAccount().equals(account))
-                .findFirst()
-                .orElse(null);*/
     }
 
-    public Subjects findBySubjectName(String account, String name) {
-        Subjects rsl = null;
-        Student a = findByAccount(account);
-        if (a != null) {
-            Set<Subjects> subjects = students.get(a);
+    public Optional<Subjects> findBySubjectName(String account, String name) {
+        Optional<Subjects> rsl = Optional.empty();
+        Optional<Student> a = findByAccount(account);
+        if (a.isPresent()) {
+            Set<Subjects> subjects = students.get(a.get());
             for (Subjects s : subjects) {
                 if (s.getName().equals(name)) {
-                    rsl = s;
+                    rsl = Optional.of(s);
                     break;
                 }
             }
         }
         return rsl;
-        /*Student a = findByAccount(account);
-        if (a != null) {
-            return students.get(a)
-                    .stream()
-                    .filter(s -> s.getName().equals(name))
-                    .findFirst()
-                    .orElse(null);
-        }
-        return null;*/
     }
 
     public static void main(String[] args) {
@@ -58,9 +45,13 @@ public class College {
                 )
         );
         College college = new College(students);
-        Student student = college.findByAccount("000001");
-        System.out.println("Identified student: " + student);
-        Subjects english = college.findBySubjectName("000001", "English");
-        System.out.println("Core for identified subject: " + english.getScore());
+        Optional<Student> student = college.findByAccount("000001");
+        if (student.isPresent()) {
+            System.out.println("Identified student: " + student.get());
+        }
+        Optional<Subjects> english = college.findBySubjectName("000001", "English");
+        if (english.isPresent()) {
+            System.out.println("Core for identified subject: " + english.get().getScore());
+        }
     }
 }
