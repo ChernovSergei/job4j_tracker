@@ -9,9 +9,9 @@ import java.util.Comparator;
 
 public class Analyze {
     public static double averageScore(Stream<Pupil> stream) {
-        double allScores = stream.map(pupil -> pupil.subjects())
+        double allScores = stream.map(Pupil::subjects)
                 .flatMap(List::stream)
-                .mapToDouble(getScores -> getScores.score())
+                .mapToDouble(Subject::score)
                 .average()
                 .getAsDouble();
         return allScores;
@@ -20,7 +20,7 @@ public class Analyze {
     public static List<Tuple> averageScoreByPupil(Stream<Pupil> stream) {
         List<Tuple> tuples = stream
                 .map(pupil -> new Tuple(pupil.name(), pupil.subjects().stream()
-                        .mapToDouble(getScores -> getScores.score())
+                        .mapToDouble(Subject::score)
                         .average()
                         .getAsDouble()
                         ))
@@ -38,14 +38,13 @@ public class Analyze {
         List<Tuple> result = pupils.entrySet().stream()
                 .map(subject -> new Tuple(subject.getKey(), subject.getValue()))
                 .collect(Collectors.toList());
-
         return result;
     }
 
     public static Tuple bestStudent(Stream<Pupil> stream) {
         Tuple bestOfTheBest = stream
                 .map(pupil -> new Tuple(pupil.name(), pupil.subjects().stream()
-                        .mapToDouble(getScores -> getScores.score())
+                        .mapToDouble(Subject::score)
                         .sum()
                         ))
                 .max(Comparator.comparing(Tuple::score))
@@ -57,14 +56,13 @@ public class Analyze {
         Map<String, Double> pupils = stream
                 .flatMap(pupil -> pupil.subjects().stream())
                 .map(subject -> new Tuple(subject.name(), subject.score()))
-                .collect(Collectors.groupingBy(Tuple::name, LinkedHashMap::new,
+                .collect(Collectors.groupingBy(Tuple::name,
                         Collectors.summingDouble(Tuple::score)));
 
         Tuple bestOfTheBest = pupils.entrySet().stream()
                 .map(subject -> new Tuple(subject.getKey(), subject.getValue()))
                 .max(Comparator.comparing((Tuple::score)))
                 .orElse(new Tuple("Default Subject", 0D));
-
         return bestOfTheBest;
     }
 }
