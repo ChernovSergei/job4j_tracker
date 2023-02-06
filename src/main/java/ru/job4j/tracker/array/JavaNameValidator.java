@@ -2,13 +2,16 @@ package ru.job4j.tracker.array;
 
 public class JavaNameValidator {
     public static boolean isNameValid(String name) {
-        boolean result = false;
-        if (name.length() > 0 && isLowerLatinLetter(name.charAt(0))) {
+        boolean result = true;
+        if (name.length() == 0 || !isLowerLatinLetter(name.charAt(0))) {
+                result = false;
+        } else {
                 result = name.chars()
-                        .allMatch(i -> isSpecialSymbol(i)
-                                || isUpperLatinLetter(i)
-                                || isLowerLatinLetter(i)
-                                || Character.isDigit(i));
+                        .skip(1)
+                        .noneMatch(i -> !isSpecialSymbol(i)
+                                && !isUpperLatinLetter(i)
+                                && !isLowerLatinLetter(i)
+                                && !Character.isDigit(i));
         }
         return result;
     }
