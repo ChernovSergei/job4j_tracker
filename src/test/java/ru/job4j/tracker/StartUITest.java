@@ -4,13 +4,13 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class StartUITest {
     @Test
     public void whenCreateItem() {
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         String[] answers = {"0", "Create Item", "1"};
         Input input = new StubInput(answers);
         Output output = new StubOutput();
@@ -21,7 +21,7 @@ public class StartUITest {
 
     @Test
     public void whenReplaceAction() {
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         Item item = new Item("Original name");
         tracker.add(item);
         String replacedName = "Replaced name";
@@ -35,7 +35,7 @@ public class StartUITest {
 
     @Test
     public void whenDeleteAction() {
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         Item item = new Item("Item to delete");
         tracker.add(item);
         String[] answers = {"0", String.valueOf(item.getId()), "1"};
@@ -48,7 +48,7 @@ public class StartUITest {
 
     @Test
     public void whenReplaceItemTestOutputIsSuccessfully() {
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         Item item = new Item("New Name");
         tracker.add(item);
         String replacedItem = "Replaced name";
@@ -73,7 +73,7 @@ public class StartUITest {
 
     @Test
     public void whenFindAllActionTestOutputIsSuccessfully() {
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         Output result = new StubOutput();
         Item first = tracker.add(new Item("first"));
         Item second = tracker.add(new Item("second"));
@@ -104,7 +104,7 @@ public class StartUITest {
     @Test
     public void whenFindByNameActionTestOutputIsSuccessfully() {
         String targetName = "second";
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         Output result = new StubOutput();
         Item first = tracker.add(new Item("first"));
         Item second = tracker.add(new Item(targetName));
@@ -134,7 +134,7 @@ public class StartUITest {
     @Test
     public void whenFindByIdActionTestOutputIsSuccessfully() {
         String targetName = "second";
-        Tracker tracker = new Tracker();
+        Store tracker = new MemTracker();
         Output result = new StubOutput();
         Item first = tracker.add(new Item("first"));
         Item second = tracker.add(new Item("second"));
