@@ -73,16 +73,13 @@ public class SqlTracker implements Store {
     }
 
     @Override
-    public boolean delete(int id) {
-        boolean result = false;
+    public void delete(int id) {
         try (Statement statement = connection.createStatement()) {
             String query = String.format("delete from items where id = %s", id);
             statement.execute(query);
-            result = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
     }
 
     @Override
