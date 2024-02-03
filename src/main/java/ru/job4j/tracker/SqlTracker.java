@@ -1,15 +1,9 @@
 package ru.job4j.tracker;
 
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
@@ -19,16 +13,6 @@ public class SqlTracker implements Store {
 
     public SqlTracker() {
         init();
-        createTable();
-    }
-
-    private void createTable() {
-        try (Statement statement = connection.createStatement()) {
-            String query = "create table if not exists items(id serial primary key, name text, created timestamp)";
-            statement.execute(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     private void init() {
@@ -46,13 +30,23 @@ public class SqlTracker implements Store {
         }
     }
 
+    private Item createNewItem(int id, String name, LocalDateTime created) {
+        return new Item(name, id, created);
+    }
+
     @Override
     public Item add(Item item) {
+        int id = -1;
         Item result = null;
-        try (Statement statement = connection.createStatement()) {
-            String query = String.format("insert into items(name, created) values('%s', '%s')", item.getName(), Timestamp.valueOf(item.getCreated()));
-            statement.execute(query);
-            result = item;
+        ResultSet resultSet;
+        try (PreparedStatement statement = connection.prepareStatement("insert into items(name, created) values (?, ?) returning id")) {
+            statement.setString(1, item.getName());
+            statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                id = resultSet.getInt(1);
+                result = createNewItem(id, item.getName(), item.getCreated());
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,10 +56,10 @@ public class SqlTracker implements Store {
     @Override
     public boolean replace(int id, Item item) {
         boolean result = false;
-        try (Statement statement = connection.createStatement()) {
-            String query = String.format("update items set name = '%s' where id = %s", item.getName(), id);
-            statement.execute(query);
-            result = true;
+        try (PreparedStatement statement = connection.prepareStatement("update items set name = ? where id = ?")) {
+            statement.setString(1, item.getName());
+            statement.setInt(2, id);
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,22 +67,23 @@ public class SqlTracker implements Store {
     }
 
     @Override
-    public void delete(int id) {
-        try (Statement statement = connection.createStatement()) {
-            String query = String.format("delete from items where id = %s", id);
-            statement.execute(query);
+    public boolean delete(int id) {
+        boolean result = false;
+        try (PreparedStatement statement = connection.prepareStatement("delete from items where id = ?")) {
+            statement.setInt(1, id);
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return result;
     }
 
     @Override
     public List<Item> findAll() {
         ResultSet resultSet;
         List<Item> result = new ArrayList<>();
-        try (Statement statement = connection.createStatement()) {
-            String query = "select * from items";
-            resultSet = statement.executeQuery(query);
+        try (PreparedStatement statement = connection.prepareStatement("select * from items")) {
+            resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 result.add(new Item(resultSet.getString(2), resultSet.getInt(1), resultSet.getTimestamp(3).toLocalDateTime()));
             }
@@ -102,9 +97,9 @@ public class SqlTracker implements Store {
     public List<Item> findByName(String key) {
         ResultSet resultSet;
         List<Item> result = new ArrayList<>();
-        try (Statement statement = connection.createStatement()) {
-            String query = String.format("select * from items where name = '%s'", key);
-            resultSet = statement.executeQuery(query);
+        try (PreparedStatement statement = connection.prepareStatement("select * from items where name = ?")) {
+            statement.setString(1, key);
+            resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 result.add(new Item(resultSet.getString(2), resultSet.getInt(1), resultSet.getTimestamp(3).toLocalDateTime()));
             }
@@ -118,9 +113,9 @@ public class SqlTracker implements Store {
     public Item findById(int id) {
         ResultSet resultSet;
         Item result = null;
-        try (Statement statement = connection.createStatement()) {
-            String query = String.format("select * from items where id = %s", id);
-            resultSet = statement.executeQuery(query);
+        try (PreparedStatement statement = connection.prepareStatement("select * from items where id = ?")) {
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 result = new Item(resultSet.getString(2), resultSet.getInt(1), resultSet.getTimestamp(3).toLocalDateTime());
             }
