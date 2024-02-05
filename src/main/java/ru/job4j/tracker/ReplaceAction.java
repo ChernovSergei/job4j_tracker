@@ -16,7 +16,7 @@ public class ReplaceAction implements UserAction {
     public boolean execute(Input input, Store tracker) {
         out.println("== Replace Item ==");
         int id = input.askInt("Enter id to replace request: ");
-        String name = input.askStr("Enter new request: ");
+        String name = input.askStr("Enter new name: ");
         Item newItem = new Item(name);
         if (tracker.replace(id, newItem)) {
             out.println("The request had been updated successfully");

@@ -20,6 +20,10 @@ public class SqlTracker implements Store {
         init();
     }
 
+    public SqlTracker(Connection connection) {
+        this.connection = connection;
+    }
+
     private void init() {
         try (InputStream input = SqlTracker.class.getClassLoader().getResourceAsStream("db/liquibase.properties")) {
             Properties config = new Properties();
@@ -35,29 +39,29 @@ public class SqlTracker implements Store {
         }
     }
 
-    private Item createNewItem(int id, String name, LocalDateTime created) {
-        return new Item(name, id, created);
+    private Item setIdFromDB(ResultSet resultSet, Item item) throws SQLException {
+        int id = -1;
+        if (resultSet.next()) {
+            id = resultSet.getInt(1);
+        }
+        if (id != -1) {
+            item.setId(id);
+        }
+        return item;
     }
 
     @Override
     public Item add(Item item) {
-        int id = -1;
-        Item result = null;
-        ResultSet resultSet;
-        try (PreparedStatement statement = connection.prepareStatement("insert into items(name, created) values (?, ?) returning id")) {
+        ResultSet resultSet = null;
+        try (PreparedStatement statement = connection.prepareStatement("insert into items(name, created) values (?, ?) returning *")) {
             statement.setString(1, item.getName());
             statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
             resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                id = resultSet.getInt(1);
-            }
-            if (id != -1) {
-                result = createNewItem(id, item.getName(), item.getCreated());
-            }
+            item = setIdFromDB(resultSet, item);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
+        return item;
     }
 
     @Override
@@ -67,6 +71,7 @@ public class SqlTracker implements Store {
             statement.setString(1, item.getName());
             statement.setInt(2, id);
             statement.execute();
+            result = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,6 +84,7 @@ public class SqlTracker implements Store {
         try (PreparedStatement statement = connection.prepareStatement("delete from items where id = ?")) {
             statement.setInt(1, id);
             statement.execute();
+            result = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
