@@ -1,12 +1,7 @@
 package ru.job4j.tracker;
 
 import java.io.InputStream;
-import java.sql.PreparedStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +47,15 @@ public class SqlTracker implements Store {
 
     @Override
     public Item add(Item item) {
-        ResultSet resultSet = null;
-        try (PreparedStatement statement = connection.prepareStatement("insert into items(name, created) values (?, ?) returning *")) {
+        try (PreparedStatement statement = connection.prepareStatement("insert into items(name, created) values (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, item.getName());
             statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
-            resultSet = statement.executeQuery();
-            item = setIdFromDB(resultSet, item);
+            statement.execute();
+            try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                item = setIdFromDB(resultSet, item);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
