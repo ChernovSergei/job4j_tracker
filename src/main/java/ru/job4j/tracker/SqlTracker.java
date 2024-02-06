@@ -70,8 +70,9 @@ public class SqlTracker implements Store {
         try (PreparedStatement statement = connection.prepareStatement("update items set name = ? where id = ?")) {
             statement.setString(1, item.getName());
             statement.setInt(2, id);
-            statement.execute();
-            result = true;
+            if (statement.execute()) {
+                result = true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,16 +80,13 @@ public class SqlTracker implements Store {
     }
 
     @Override
-    public boolean delete(int id) {
-        boolean result = false;
+    public void delete(int id) {
         try (PreparedStatement statement = connection.prepareStatement("delete from items where id = ?")) {
             statement.setInt(1, id);
             statement.execute();
-            result = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
     }
 
     @Override
