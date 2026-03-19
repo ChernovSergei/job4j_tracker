@@ -98,9 +98,9 @@ public class TrackerTest {
         Input in = new StubInput(
                 new String[] {"1", "0"}
         );
-        Tracker tracker = new Tracker();
+        Store tracker = new SqlTracker();
         UserAction[] actions = new UserAction[] {new ExitAction(out)};
-        new StartUI(out).init(in, tracker, actions);
+        new StartUI(out).init(in, tracker, List.of(actions));
         String ln = System.lineSeparator();
         assertThat(out.toString(), is(
                 "Menu:" + ln
